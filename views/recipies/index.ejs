@@ -1,0 +1,21 @@
+<h2>Search Recipies</h2>
+<form action = "/recipies" method="GET">
+    <div>
+        <label>Name</label>
+        <input type = "text" name = "name" value="<%= searchOptions.name%>">
+    </div>
+    <div>
+        <label>Published Before</label>
+        <input type = "date" name = "publishedBefore" value="<%= searchOptions.publishBefore%>">
+    </div>
+    <div>
+        <label>Published After</label>
+        <input type = "date" name = "publishedAfter" value="<%= searchOptions.publishedAfter%>">
+    </div>
+<button type = "submit"> Search</button>
+</form>
+<div>
+<% recipies.forEach(recipe => { %>
+    <img height = "150" width="100" src="<%= recipe.recipePhotoPath %>"> 
+<% }) %>
+</div>
