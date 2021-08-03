@@ -16,7 +16,8 @@ app.set('views', __dirname + '/views')
 app.set('layout', 'layouts/layout')
 app.use(expressLayouts)
 app.use(express.static('public'))
-// app.use(bodyParser.urlencoded({limit: '10mb', extended: true}))
+app.use(bodyParser.urlencoded({limit: '10mb', extended: false}))
+app.use(bodyParser.json())
 app.use(express.json()); //Used to parse JSON bodies
 app.use(express.urlencoded({ extended: true }))
 

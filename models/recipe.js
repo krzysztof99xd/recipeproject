@@ -23,7 +23,11 @@ const recipeSchema = new mongoose.Schema({
         required: true,
         default: Date.now
     },
-    imageName: {
+    photo: {
+        type: Buffer,
+        required: true
+    },
+    photoType:{
         type: String,
         required: true
     },
@@ -36,10 +40,10 @@ const recipeSchema = new mongoose.Schema({
 })
 
 recipeSchema.virtual('recipePhotoPath').get(function(){
-    if (this.imageName != null){
-        return path.join('/', recipiesPhotos, this.imageName)
+    if (this.photo != null && this.photoType != null){
+        return `data:${this.photoType};charset=utf-8;base64,${this.photo.toString('base64')}`
     }
 })
 
 module.exports = mongoose.model('Recipe', recipeSchema)
-module.exports.recipiesPhotos = recipiesPhotos
+// module.exports.recipiesPhotos = recipiesPhotos

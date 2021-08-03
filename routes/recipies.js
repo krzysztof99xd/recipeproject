@@ -1,19 +1,19 @@
 
 const express = require('express')
 const router = express.Router()
-const multer = require('multer')
+// const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
 const Recipe = require('../models/recipe')
 const Author = require('../models/author')
-const uploadPath = path.join('public', Recipe.recipiesPhotos)
+// const uploadPath = path.join('public', Recipe.recipiesPhotos)
 const imageMimeTypes = ['image/jpeg', 'image/png', 'image/gif']
-const upload = multer({
-  dest: uploadPath,
-  fileFilter: (req, file, callback) => {
-    callback(null, imageMimeTypes.includes(file.mimetype))
-  }
-})
+// const upload = multer({
+//   dest: uploadPath,
+//   fileFilter: (req, file, callback) => {
+//     callback(null, imageMimeTypes.includes(file.mimetype))
+//   }
+// })
 
 //All  recipe route
 router.get('/', async (req, res) =>{
@@ -45,34 +45,31 @@ router.get('/new', async (req, res) =>{
 
 
 // Create recipe Route
-router.post('/', upload.single('photo'), async (req, res) => {
-  const fileName = req.file != null ? req.file.filename : null
+router.post('/', async (req, res) => {
   const recipe = new Recipe({
     name: req.body.name,
     author: req.body.author,
     publishDate: new Date(req.body.publishDate),
-    timeCount: parseInt(req.body.timeCount),
-    imageName: fileName,
+    timeCount: req.body.timeCount,
     description: req.body.description
   })
-  try{
-    const newRecipe = await recipe.save()
-  // res.redirect(`authors/${newRecipe.id}`)
-    res.redirect('recipies')
-  } catch{ 
-    if(recipe.imageName != null){
-      removeRecipePhoto(recipe.imageName)
-  }
+  saveCover(recipe, req.body.image)
+
+  try {
+    const newBook = await recipe.save()
+    // res.redirect(`books/${newBook.id}`)
+    res.redirect(`recipies`)
+  } catch {
     renderNewPage(res, recipe, true)
   }
-  })
+})
 
 
-  async function removeRecipePhoto(fileName){
-    fs.unlink(path.join(uploadPath, fileName), err =>{
-      if(err) console.error(err)
-    })
-  }
+  // async function removeRecipePhoto(fileName){
+  //   fs.unlink(path.join(uploadPath, fileName), err =>{
+  //     if(err) console.error(err)
+  //   })
+  // }
   
 async function renderNewPage(res, recipe, hasError = false){
   try{
@@ -87,5 +84,15 @@ async function renderNewPage(res, recipe, hasError = false){
     res.redirect('/recipies')
   }
 }
+
+function saveCover(recipe, photoEncoded){
+  if(photoEncoded == null) return 
+  const photo = JSON.parse(photoEncoded)
+  if(photo != null && imageMimeTypes.includes(photo.type)){
+    recipe.photo = new Buffer.from(photo.data, 'base64')
+    recipe.photoType = photo.type
+  }
+}
+
 
 module.exports = router 
