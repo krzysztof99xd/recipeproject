@@ -6,6 +6,7 @@ const express = require('express')
 const app = express()
 const expressLayouts = require('express-ejs-layouts')
 const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
 
 const  indexRouter = require('./routes/index')
 const  authorRouter = require('./routes/authors')
@@ -20,6 +21,7 @@ app.use(bodyParser.urlencoded({limit: '10mb', extended: false}))
 app.use(bodyParser.json())
 app.use(express.json()); //Used to parse JSON bodies
 app.use(express.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 
 
 const mongoose = require('mongoose')
