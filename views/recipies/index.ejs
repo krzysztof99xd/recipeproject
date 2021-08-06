@@ -16,6 +16,8 @@
 </form>
 <div>
 <% recipies.forEach(recipe => { %>
+    <a href= "/recipies/<%= recipe.id %>">
     <img height = "150" width="100" src="<%= recipe.recipePhotoPath %>"> 
+</a>
 <% }) %>
 </div>

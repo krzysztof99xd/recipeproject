@@ -1,0 +1,9 @@
+<h2><%= recipe.name %></h2>
+<img src= "<%= recipe.recipePhotoPath %>">
+<div>  Author: <%= recipe.author.name %> </div>
+<div>  Publish Date: <%= recipe.publishDate.toDateString() %> </div>
+<div>  Preparation: <%= recipe.timeCount %> </div>
+<div>  Description: <%= recipe.description %> </div>
+<a href= "/recipies/<%= recipe.id %>/edit">Edit</a>
+<%- include('../partials/deleteForm', {url: `/recipies/${recipe.id}` }) %>
+<a href= "/recipies/<%= recipe.author.id %>/delete">View author</a>

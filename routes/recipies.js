@@ -1,19 +1,11 @@
 
 const express = require('express')
 const router = express.Router()
-// const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
 const Recipe = require('../models/recipe')
 const Author = require('../models/author')
-// const uploadPath = path.join('public', Recipe.recipiesPhotos)
 const imageMimeTypes = ['image/jpeg', 'image/png', 'image/gif']
-// const upload = multer({
-//   dest: uploadPath,
-//   fileFilter: (req, file, callback) => {
-//     callback(null, imageMimeTypes.includes(file.mimetype))
-//   }
-// })
 
 //All  recipe route
 router.get('/', async (req, res) =>{
@@ -56,34 +48,108 @@ router.post('/', async (req, res) => {
   saveCover(recipe, req.body.image)
 
   try {
-    const newBook = await recipe.save()
-    // res.redirect(`books/${newBook.id}`)
-    res.redirect(`recipies`)
+    const newRecipe = await recipe.save()
+    res.redirect(`recipies/${newRecipe.id}`)
   } catch {
     renderNewPage(res, recipe, true)
   }
 })
 
+//Show a recipe route
+router.get('/:id', async (req, res) => {
+ try{
+  const recipe = await Recipe.findById(req.params.id).populate('author').exec()
+  res.render('recipies/showing', {recipe: recipe}) 
+ }catch{
+   res.redirect('/')
+ }
+})
 
-  // async function removeRecipePhoto(fileName){
-  //   fs.unlink(path.join(uploadPath, fileName), err =>{
-  //     if(err) console.error(err)
-  //   })
-  // }
+router.get('/:id/edit', async (req, res) => {
+  try{
+   const recipe = await Recipe.findById(req.params.id)
+   renderEditPage(res, recipe)
+  }catch{
+    res.redirect('/')
+  }
+ })
+
+//Update a Recipe Route
+ router.put('/:id', async (req, res) => {
+  let recipe 
+  try{
+    recipe = await Recipe.findById(req.params.id)
+    recipe.name = req.body.name,
+    recipe.author = req.body.author,
+    recipe.publishDate = new Date(req.body.publishDate),
+    recipe.timeCount = req.body.timeCount,
+    recipe.description = req.body.description
+
+    if(req.body.image != null && req.body.image !== ''){
+      saveCover(recipe, req.body.image)
+    }
+    await recipe.save()
+    res.redirect(`/recipies/${recipe.id}`)
+
+  }catch{
+    if(recipe != null ){
+      renderEditPage(res, recipe, true)
+    }else{
+      res.redirect('/')
+    }
+  }
+})
   
+// Delete a recipe page 
+router.delete('/:id', async(req, res) => {
+ let recipe 
+  try{
+    recipe = Recipe.findById(req.params.id)
+    await recipe.remove()
+    res.redirect('/recipies')
+ }catch {
+   if(book != null){
+     res.render('recipies/show', {
+       recipe: recipe,
+       errorMessage: 'Could not remove recipe'
+     })
+   } else{
+    res.redirect('/')
+   }
+ }
+})
 async function renderNewPage(res, recipe, hasError = false){
+    renderPage(res, recipe, 'new', hasError)
+}
+
+
+async function renderEditPage(res, recipe, hasError = false){
+    renderPage(res, recipe, 'edit', hasError)
+}
+
+async function renderPage(res, recipe, form, hasError = false){
   try{
     const authors = await Author.find({})
     const params = {
       authors: authors, 
       recipe: recipe
     }
-    if (hasError) params.errorMessage = "Error creating a recipe"
-    res.render('recipies/new', params )
-  } catch{
+    if (hasError) {
+      if (form === 'edit') {
+        params.errorMessage = 'Error Updating Recipe'
+      } else {
+        params.errorMessage = 'Error Creating Recipe'
+      }
+    }
+    res.render(`recipies/${form}`, params)
+  } catch {
+    console.log("I am inside a catch statement")
     res.redirect('/recipies')
   }
 }
+
+
+
 
 function saveCover(recipe, photoEncoded){
   if(photoEncoded == null) return 
