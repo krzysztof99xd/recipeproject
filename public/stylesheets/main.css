@@ -2,6 +2,8 @@
 @import 'shared/header.css';
 @import 'shared/buttons.css';
 @import 'shared/form.css';
+@import 'shared/author.css';
+@import 'shared/recipies.css';
 
 *, *::before, *::after{
     box-sizing: border-box;
@@ -25,5 +27,7 @@ body{
 
 .inner-container{
     margin: 0 2rem;
-
+}
+.error-message {
+    color: rgb(230, 78, 78);
 }

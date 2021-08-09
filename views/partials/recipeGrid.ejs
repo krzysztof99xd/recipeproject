@@ -1,0 +1,9 @@
+<% recipePhotoClass = locals.large ? 'recipe-photo-large' : ''  %>
+<% recipeGridClass = locals.large ? 'recipe-grid-large' : '' %>
+<div class="recipe-grid <% recipeGridClass %>">
+    <% recipies.forEach(recipe => { %>
+        <a href= "/recipies/<%= recipe.id %>">
+        <img class="recipe-cover " src="<%= recipe.recipePhotoPath %>"> 
+        </a>
+    <% }) %>
+</div>

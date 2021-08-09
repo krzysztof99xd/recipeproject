@@ -5,10 +5,6 @@
 </div>
 <% if(recipiesByAuthor.length > 0) { %>
 <h2 class ="page-header" >Recipies By <%= author.name %></h2>
-<% recipiesByAuthor.forEach(recipe => { %>
-    <a href= "/recipies/<%= recipe.id %>">
-    <img height = "150" width="100" src="<%= recipe.recipePhotoPath %>"> 
-    
-<% }) %>
+<%- include('../partials/recipeGrid', {recipies: recipiesByAuthor} )%>
 </a>
 <% } %>

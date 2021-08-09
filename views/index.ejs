@@ -1,10 +1,3 @@
 <h2 class="page-header">Recently uploaded</h2>
-<figure>
-    <% recipies.forEach(recipe => { %>
-        <a href = "/recipies/<%= recipe.id %>">
-        <img height = "150" width="100" src="<%= recipe.recipePhotoPath %>" >
-        <!-- <div><%= recipe.name %></div> -->
-    </a>
-    <figcaption>esssa</figcaption>
-    <% }) %> 
-</figure>
+<%- include('partials/recipeGrid', {
+    recipies: recipies, large: true}) %>

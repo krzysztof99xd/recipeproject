@@ -1,0 +1,58 @@
+:root{
+    --recipe-photo-width: 220px;
+    --recipe-photo-width-large: 325px;
+    --recipe-photo-aspect-ratio: 0.8;
+}
+
+.recipe-cover{
+    width: var(--recipe-photo-width);
+    height: calc(var(--recipe-photo-width)/var(--recipe-photo-aspect-ratio));
+}
+
+.recipe-cover-large {
+    --recipe-cover-width: var(var(--recipe-photo-width-large));
+}
+
+.recipe-grid {
+    display: grid;
+    justify-content: center;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(auto-fill, var(--recipe-photo-width));
+}
+
+.recipe-grid-large{
+    grid-template-columns: repeat(auto-fill, var(--recipe-photo-width-large));
+}
+
+.recipe-info{
+    display: flex;
+}
+.recipe-details-label {
+    font-size: 1.2rem;
+    font-weight: 500;
+    align-self: flex-start;
+}
+.recipe-details-grid {
+    display: grid;
+    align-content: flex-start;
+    align-items: center;
+    grid-gap: 1rem;
+    grid-template-columns: auto auto;
+    margin-left: 5.rem;
+}
+
+.recipe-details-btn-grid{
+    display: grid;
+    justify-items: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    grid-template-areas: 
+    "edit delete"
+    "author author";
+    grid-gap: .5rem;
+    margin-top: .5rem;
+}
+.recipe-details-author-button{
+    grid-area: author;
+    justify-self: stretch;
+}
