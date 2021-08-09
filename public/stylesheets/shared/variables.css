@@ -3,6 +3,6 @@
     --color-danger-hue-offset:200;
     --color-danger-hue: calc(var(--color-base-hue) - var(var(--color-danger-hue-offset)));
     --color-background-dark: hsl(var(--color-base-hue), 100%, 48%);
-    --color-background-light: hsl(var(--color-base-hue), 100%, 55%);
+    --color-background-light: hsl(var(--color-base-hue), 100%, 31%);
     --color-text-light: hsl(var(--color-base-hue), 100%, 88%);
 }

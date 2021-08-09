@@ -42,3 +42,11 @@
     font-size: 2rem;
     font-weight: 500;
 }
+.img-with-text{
+    text-align: justify;
+    width: 100px;
+}
+.img-with-text img{
+    display: block;
+    margin: 0 auto;
+}

@@ -1,18 +1,25 @@
 <h2 class="page-header">Search Recipies</h2>
 <form action = "/recipies" method="GET">
-    <div>
-        <label>Name</label>
-        <input type = "text" name = "name" value="<%= searchOptions.name%>">
+    <div class=" form-row">
+        <div class="form-item">
+            <label>Name</label>
+            <input type = "text" name = "name" value="<%= searchOptions.name%>">
+        </div>
     </div>
-    <div>
+
+    <div class = "form-row">
+    <div class = "form-item">
         <label>Published Before</label>
         <input type = "date" name = "publishedBefore" value="<%= searchOptions.publishBefore%>">
     </div>
-    <div>
+    <div class="form-item">
         <label>Published After</label>
         <input type = "date" name = "publishedAfter" value="<%= searchOptions.publishedAfter%>">
     </div>
-<button type = "submit"> Search</button>
+</div>
+<div class = "form-row form-row-end">
+<button class = "btn btn-primary" type = "submit"> Search</button>
+</div>
 </form>
 <div>
 <% recipies.forEach(recipe => { %>
