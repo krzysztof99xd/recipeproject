@@ -5,8 +5,8 @@
 Requirements
 
 Node.js 10+
-Nodemon
-Mongoose
++ Nodemon
++ Mongoose
 
 ### Installation
 ```bash
