@@ -5,7 +5,9 @@ JavaScript
 
 Front-end:
 Embedded Java Script
+CSS
 
+The app is build with the REST architectural style.
 
 ## Development 
 
